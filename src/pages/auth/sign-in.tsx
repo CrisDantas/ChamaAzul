@@ -1,7 +1,34 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+//quando o usuario fizer um submit o data sera um objeto que tem dentro o campo de email(string)
+const signInForm = z.object({
+    email: z.string().email(),
+})
+
+//  infer: converte a estrutura SignInForm do zod para tipagem do typescript
+type SignInForm = z.infer<typeof signInForm>
+
 export function SignIn() {
+
+    // *register: serve para registrar campos do formulario, *handleSubmit: lida com a entrega do formulario, isSubmiting: diz se o forms foi ou nao enviado
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting },
+    } = useForm<SignInForm>()
+
+
+    async function handleSignIn(data: SignInForm) {
+
+        await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+
+
     return (
         <div className="p-8">
             <div className="w-[350px] flex flex-col justify-center gap-6">
@@ -11,13 +38,14 @@ export function SignIn() {
                         Acompanhe suas vendas pelo painel do parceiro! </p>
                 </div>
 
-                <form className="space-y-4">
+                {/* a funçao handlesubmit chama a funcao handlesignin enviando os dados do formulario */}
+                <form onSubmit={handleSubmit(handleSignIn)} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="email">Seu e-mail</Label>
-                        <input type="email" id="email" />
+                        <Input type="email" id="email" {...register('email')} />
                     </div>
 
-                    <Button className="w-full" type="submit" > Acessar painel</Button>
+                    <Button disabled={isSubmitting} className="w-full" type="submit" > Acessar painel</Button>
                 </form>
             </div>
         </div>
