@@ -9,7 +9,7 @@ function App() {
   return (
     <div>
       <RouterProvider router={router} />
-      < Toaster />
+      < Toaster richColors/>
     </div>
 
   )

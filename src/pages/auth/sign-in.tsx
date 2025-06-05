@@ -4,6 +4,8 @@ import { Label } from "@radix-ui/react-label";
 
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { toast } from 'sonner';
+import { act } from "react";
 
 //quando o usuario fizer um submit o data sera um objeto que tem dentro o campo de email(string)
 const signInForm = z.object({
@@ -25,7 +27,19 @@ export function SignIn() {
 
     async function handleSignIn(data: SignInForm) {
 
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+
+            toast.success('Enviamos um link de autenticação para o seu email.', {
+                action: {
+                    label: 'Reenviar',
+                    onClick: () => handleSignIn(data),
+                }
+            })
+        } catch {
+            toast.error('Credenciais inválidas.')
+        }
+
     }
 
 
