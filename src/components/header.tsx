@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Home, Pizza, SeparatorVertical, UtensilsCrossed } from "lucide-react";
+import { Home, Pizza, UtensilsCrossed } from "lucide-react";
 import { NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme/theme-toggle";
 import { AccountMenu } from "./account-menu";

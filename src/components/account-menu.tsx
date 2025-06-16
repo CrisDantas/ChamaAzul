@@ -1,6 +1,6 @@
-import { ChevronDown } from "lucide-react";
+import { Building, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export function AccountMenu() {
     return (
@@ -12,10 +12,19 @@ export function AccountMenu() {
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
-<DropdownMenuLabel>
-{/* parei no 8 min */}
-</DropdownMenuLabel>
-<DropdownMenuItem></DropdownMenuItem>
+                <DropdownMenuLabel className="flex flex-col">
+                    <span>Cris Dantas</span>
+                    <span className="text-xs font-normal text-muted-forground ">cristinadantas667@gmail.com</span>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                    <Building className="mr-2 h-4 w-4" />
+                    <span>Perfil da loja</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sair</span>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     )
