@@ -19,7 +19,7 @@ export function OrderTableRow() {
                     <OrderDetails />
                 </Dialog>
 
-            </TableCell>
+            </TableCell> 
             <TableCell className="font-mono text-xs font-medium">
                 821e78f7asdhdf128h
             </TableCell>
