@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner';
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from '@/api/sign-in'
 
 //quando o usuario fizer um submit o data sera um objeto que tem dentro o campo de email(string)
 const signInForm = z.object({
@@ -16,7 +18,6 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
-
     // *register: serve para registrar campos do formulario, *handleSubmit: lida com a entrega do formulario, isSubmiting: diz se o forms foi ou nao enviado
     const {
         register,
@@ -24,11 +25,13 @@ export function SignIn() {
         formState: { isSubmitting },
     } = useForm<SignInForm>()
 
+    const { mutateAsync: authenticate } = useMutation({
+        mutationFn: signIn,
+    })
 
     async function handleSignIn(data: SignInForm) {
-
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            await authenticate({ email: data.email })
 
             toast.success('Enviamos um link de autenticação para o seu email.', {
                 action: {
