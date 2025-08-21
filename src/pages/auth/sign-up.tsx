@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { toast } from 'sonner';
 import { Link, useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { registerRestaurant } from "@/api/register-restaurant";
 
 //quando o usuario fizer um submit o data sera um objeto que tem dentro o campo de email(string)
 const signUpForm = z.object({
@@ -29,16 +31,24 @@ export function SignUp() {
         formState: { isSubmitting },
     } = useForm<SignUpForm>()
 
+    const { mutateAsync: registerRestaurantFn } = useMutation({
+        mutationFn: registerRestaurant
+    })
 
     async function handleSignUp(data: SignUpForm) {
 
         try {
-            await new Promise((resolve) => setTimeout(resolve, 1000))
+            await registerRestaurantFn({
+                restaurantName: data.restaurantName,
+                managerName: data.managerName,
+                email: data.email,
+                phone: data.phone,
+            })
 
             toast.success('Restaurante cadastrado com sucesso!', {
                 action: {
                     label: 'Login ',
-                    onClick: () => navigate('/sign-in'),
+                    onClick: () => navigate(`/sign-in?email=${data.email}`),
                 }
             })
         } catch {
@@ -46,7 +56,6 @@ export function SignUp() {
         }
 
     }
-
 
     return (
         <div className="p-8">
@@ -68,18 +77,18 @@ export function SignUp() {
                 <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="restaurantName">Nome do estabelecimento</Label>
-                        <Input 
-                        type="text" 
-                        id="restaurantName" 
-                        {...register('restaurantName')} />
+                        <Input
+                            type="text"
+                            id="restaurantName"
+                            {...register('restaurantName')} />
                     </div>
 
                     <div className="space-y-2">
                         <Label htmlFor="managerName">Seu nome</Label>
-                        <Input 
-                        type="text" 
-                        id="managerName" 
-                        {...register('managerName')} />
+                        <Input
+                            type="text"
+                            id="managerName"
+                            {...register('managerName')} />
                     </div>
 
                     <div className="space-y-2">
@@ -89,10 +98,10 @@ export function SignUp() {
 
                     <div className="space-y-2">
                         <Label htmlFor="phone">Seu celular</Label>
-                        <Input 
-                        type="tel" 
-                        id="phone" 
-                        {...register('phone')} />
+                        <Input
+                            type="tel"
+                            id="phone"
+                            {...register('phone')} />
                     </div>
 
                     <Button disabled={isSubmitting} className="w-full" type="submit" > Finalizar cadastro</Button>

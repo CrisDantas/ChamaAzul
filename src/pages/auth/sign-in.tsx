@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -18,12 +18,18 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
+    const [searchParams] = useSearchParams()
+    
     // *register: serve para registrar campos do formulario, *handleSubmit: lida com a entrega do formulario, isSubmiting: diz se o forms foi ou nao enviado
     const {
         register,
         handleSubmit,
         formState: { isSubmitting },
-    } = useForm<SignInForm>()
+    } = useForm<SignInForm>({
+        defaultValues: {
+            email: searchParams.get('email') ?? '',
+        }
+    })
 
     const { mutateAsync: authenticate } = useMutation({
         mutationFn: signIn,
