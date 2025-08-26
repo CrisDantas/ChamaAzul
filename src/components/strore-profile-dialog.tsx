@@ -1,29 +1,37 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
+import { z } from 'zod'
+
+import {
+    getManagedRestaurant,
+} from '@/api/get-managed-restaurant'
 import { updateProfile } from '@/api/update-profile'
 
-
-import { Button } from "./ui/button";
-import { DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { getManagedRestaurant } from "@/api/get-managed-restaurant";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from "sonner";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { Button } from './ui/button'
+import {
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from './ui/dialog'
+import { Input } from './ui/input'
+import { Label } from './ui/label'
+import { Textarea } from './ui/textarea'
 
 const storeProfileSchema = z.object({
     name: z.string().min(1),
-    description: z.string(),
+    description: z.string().nullable(),
 })
 
 type StoreProfileSchema = z.infer<typeof storeProfileSchema>
 
 export function StoreProfileDialog() {
     const queryClient = useQueryClient()
-    
+
     const { data: managedRestaurant } = useQuery({
         queryKey: ['managed-restaurant'],
         queryFn: getManagedRestaurant,
@@ -42,20 +50,42 @@ export function StoreProfileDialog() {
         }
     })
 
+    //atualiza os dados simultaneamente usando cachê a partir do sucesso de uma requisição antes dela (mutação do cache)
     const { mutateAsync: updateProfileFn } = useMutation({
         mutationFn: updateProfile,
-        onSuccess(_, {name, description}) {
-            const cached = queryClient.getQueryData(['managed-restaurant'])
-//atualiza os dados simultaneamente usando cachê a partir do sucesso de uma requisição antes dela (mutação do cache)
-            if (cached) {
-                queryClient.setQueryData(['managed-restaurant'], {
-                    ...cached,
-                    name,
-                    description, 
-                })
+        onMutate({ description, name }) {
+            const { cached } = updateManagedRestaurantCache({ description, name })
+
+            return { previousProfile: cached }
+        },
+        onError(_, __, context) {
+            if (context?.previousProfile) {
+                updateManagedRestaurantCache(context.previousProfile)
             }
         },
     })
+
+    function updateManagedRestaurantCache({
+        name,
+        description,
+    }: StoreProfileSchema) {
+        const cached = queryClient.getQueryData([
+            'managed-restaurant',
+        ])
+
+        if (cached) {
+            queryClient.setQueryData(
+                ['managed-restaurant'],
+                {
+                    ...cached,
+                    name,
+                    description,
+                },
+            )
+        }
+
+        return { cached }
+    }
 
     //atualiza e salva o novo nome do restaurante 
     async function handleUpdateProfile(data: StoreProfileSchema) {
@@ -102,3 +132,5 @@ export function StoreProfileDialog() {
         </DialogContent>
     )
 }
+
+
