@@ -46,12 +46,12 @@ export function StoreProfileDialog() {
         mutationFn: updateProfile,
         onSuccess(_, {name, description}) {
             const cached = queryClient.getQueryData(['managed-restaurant'])
-
+//atualiza os dados simultaneamente usando cachê a partir do sucesso de uma requisição antes dela (mutação do cache)
             if (cached) {
                 queryClient.setQueryData(['managed-restaurant'], {
                     ...cached,
                     name,
-                    description,
+                    description, 
                 })
             }
         },
