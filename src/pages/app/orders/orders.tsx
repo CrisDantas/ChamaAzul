@@ -1,30 +1,46 @@
-
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { OrderTableRow } from './order-table-row'
-import { OrderTableFilers } from './order-table-filters'
-import { Pagination } from '@/components/pagination'
 import { useQuery } from '@tanstack/react-query'
-import { getOrders } from '@/api/get-orders'
 import { useSearchParams } from 'react-router-dom'
-import z from 'zod'
+import { z } from 'zod'
 
+import { getOrders } from '@/api/get-orders'
+import { Pagination } from '@/components/pagination'
+import {
+    Table,
+    TableBody,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table'
+
+import { OrderTableFilters } from './order-table-filters'
+import { OrderTableRow } from './order-table-row'
+import { OrderTableSkeleton } from './order-table-skeleton'
 
 export function Orders() {
-
     const [searchParams, setSearchParams] = useSearchParams()
 
-    //verifica se ja tem uma pagina salva dentro de serachParams
-    const pageIndex = z.coerce.number()
-        .transform(page => page - 1)
+    const orderId = searchParams.get('orderId')
+    const customerName = searchParams.get('customerName')
+    const status = searchParams.get('status')
+
+    const pageIndex = z.coerce
+        .number()
+        .transform((page) => page - 1)
         .parse(searchParams.get('page') ?? '1')
 
-    const { data: result } = useQuery({
-        queryKey: ['orders', pageIndex],
-        queryFn: () => getOrders({ pageIndex }),
+    const { data: result, isLoading: isLoadingOrders } = useQuery({
+        queryKey: ['orders', pageIndex, orderId, customerName, status],
+        queryFn: () =>
+            getOrders({
+                pageIndex,
+                orderId,
+                customerName,
+                status: status === 'all' ? null : status,
+            }),
     })
 
     function handlePaginate(pageIndex: number) {
-        setSearchParams(state => {
+        setSearchParams((state) => {
             state.set('page', (pageIndex + 1).toString())
             return state
         })
@@ -35,9 +51,8 @@ export function Orders() {
             <div className="flex flex-col gap-4">
                 <h1 className="text-3xl font-bold tracking-tight">Pedidos</h1>
 
-                {/* container  1*/}
                 <div className="space-y-2.5">
-                    <OrderTableFilers />
+                    <OrderTableFilters />
 
                     <div className="rounded-md border">
                         <Table>
@@ -54,18 +69,24 @@ export function Orders() {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {result && result.orders.map(order => {
-                                    return <OrderTableRow key={order.orderId} order={order} />
-                                })}
+                                {isLoadingOrders && 
+                                <OrderTableSkeleton />
+                                }
+                                {result &&
+                                    result.orders.map((order) => {
+                                        return <OrderTableRow key={order.orderId} order={order} />
+                                    })}
                             </TableBody>
                         </Table>
                     </div>
+
                     {result && (
                         <Pagination
-                            onPageChange={handlePaginate}
                             pageIndex={result.meta.pageIndex}
                             totalCount={result.meta.totalCount}
-                            perPage={result.meta.perPage} />
+                            perPage={result.meta.perPage}
+                            onPageChange={handlePaginate}
+                        />
                     )}
                 </div>
             </div>
