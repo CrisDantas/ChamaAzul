@@ -6,6 +6,7 @@ import { OrderDetails } from "./order-details";
 import { OrderStatus } from "@/components/order-status";
 import { formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
+import { useState } from "react";
 
 export interface OrderTableRowProps {
     order: {
@@ -18,10 +19,12 @@ export interface OrderTableRowProps {
 }
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
+    const [isDeteailsOpen, setIsDetailsOpen] = useState(false)
+
     return (
         <TableRow>
             <TableCell>
-                <Dialog>
+                <Dialog open={ isDeteailsOpen} onOpenChange={setIsDetailsOpen}>
                     <DialogTrigger asChild>
                         <Button variant="outline" size="sm">
                             <Search className="h-3 w-3" />
@@ -29,7 +32,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                         </Button>
                     </DialogTrigger>
                     {/* tabela secundaria com todos os detalhes do pedido que abre igual pop up */}
-                    <OrderDetails />
+                    <OrderDetails open={isDeteailsOpen} orderId={'orderId'}/>
                 </Dialog>
 
             </TableCell>
