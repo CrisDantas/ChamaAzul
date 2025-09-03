@@ -32,7 +32,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
                         </Button>
                     </DialogTrigger>
                     {/* tabela secundaria com todos os detalhes do pedido que abre igual pop up */}
-                    <OrderDetails open={isDeteailsOpen} orderId={'orderId'}/>
+                    <OrderDetails open={isDeteailsOpen} orderId={order.orderId}/>
                 </Dialog>
 
             </TableCell>
@@ -51,7 +51,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
             <TableCell className="font-medium">
                 {order.customerName}
             </TableCell>
-            <TableCell className="font-medium">{order.total.toLocaleString('pt-BR', {
+            <TableCell className="font-medium">{(order.total / 100).toLocaleString('pt-BR', {
                 style: 'currency',
                 currency: 'BRL',
             })}</TableCell>
