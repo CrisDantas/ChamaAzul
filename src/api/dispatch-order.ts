@@ -5,5 +5,5 @@ export interface DispatchOrderParams{
 }
 
 export async function dispatchOrder({ orderId }: DispatchOrderParams){
-    await api.patch(`/order/${orderId}/dispatch`)
+    await api.patch(`/orders/${orderId}/dispatch`)
 }
