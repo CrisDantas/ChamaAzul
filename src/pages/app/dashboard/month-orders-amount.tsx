@@ -2,6 +2,7 @@ import { getMonthOrdersAmount } from "@/api/get-orders-amount";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { Utensils } from "lucide-react";
+import { MetricCardSkeleton } from "./metric-card-skeleton";
 
 export function MonthOrdersAmount() {
     const { data: monthOrdersAmount } = useQuery({
@@ -18,7 +19,7 @@ export function MonthOrdersAmount() {
                 <Utensils className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent className="space-y-1">
-                {monthOrdersAmount && (
+                {monthOrdersAmount ? (
                     <>
                         <span className="text-2xl font-bold tracking-tight">
                             {monthOrdersAmount.amount.toLocaleString('pt-BR')}
@@ -41,6 +42,8 @@ export function MonthOrdersAmount() {
                             )}
                         </p>
                     </>
+                ) : (
+                    <MetricCardSkeleton />
                 )}
             </CardContent>
         </Card>
