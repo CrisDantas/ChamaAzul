@@ -1,7 +1,7 @@
 import { getDayOrdersAmount } from "@/api/get-day-orders-amount";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { Utensils } from "lucide-react";
+import { BookCheck } from "lucide-react";
 import { MetricCardSkeleton } from "./metric-card-skeleton";
 
 export function DayOrdersAmount() {
@@ -16,7 +16,7 @@ export function DayOrdersAmount() {
                 <CardTitle className="text-base font-semibold">
                     Pedidos no (dia)
                 </CardTitle>
-                <Utensils className="h-4 w-4 text-muted-foreground" />
+                <BookCheck className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent className="space-y-1">
                 {dayOrdersAmount ? (

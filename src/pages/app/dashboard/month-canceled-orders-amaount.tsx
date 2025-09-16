@@ -1,7 +1,7 @@
 import { getMonthCanceledOrdersAmount } from "@/api/get-month-canceld-orders-amount";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
-import { DollarSign } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 
 export function MonthCanceledOrdersAmount() {
     const { data: monthCanceledOrdersAmount } = useQuery({
@@ -15,7 +15,7 @@ export function MonthCanceledOrdersAmount() {
                 <CardTitle className="text-base font-semibold">
                     Cancelamentos no (mês)
                 </CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                <TriangleAlert className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent className="space-y-1">
                 {monthCanceledOrdersAmount && (

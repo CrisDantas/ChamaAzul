@@ -1,4 +1,4 @@
-import { Home, Pizza, UtensilsCrossed } from "lucide-react";
+import { BookCheck, Flame, Home } from "lucide-react";
 import { NavLink } from "./nav-link";
 import { ThemeToggle } from "./theme/theme-toggle";
 import { AccountMenu } from "./account-menu";
@@ -8,7 +8,7 @@ export function Header() {
     return (
         <div className="border-b">
             <div className="flex h-16 items-center gap-6 px-6">
-                < Pizza className=" h-6 w-6" />
+                < Flame className=" h-6 w-6" />
                 {/* <SeparatorVertical className="h-6" /> */}
                 <nav className="flex items-center space-x-4 lg:space-x-6">
                     <NavLink to="/">
@@ -16,7 +16,7 @@ export function Header() {
                         Início
                     </NavLink>
                     <NavLink to="/orders">
-                        < UtensilsCrossed className="h-4 w-4" />
+                        < BookCheck className="h-4 w-4" />
                         Pedidos
                     </NavLink>
                 </nav>
