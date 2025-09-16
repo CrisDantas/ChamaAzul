@@ -2,6 +2,9 @@
 
 Dashboard para gestão do estabelecimento e controle de serviços.
 
+![Texto alternativo](./src/assets/Preview.jpg)
+
+
 ## Ferramentas
 
 - React
