@@ -1,4 +1,4 @@
-# React
+# Sistema de gestão de serviços
 
 Dashboard para gestão do estabelecimento e controle de serviços.
 
