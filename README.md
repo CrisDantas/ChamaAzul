@@ -6,7 +6,6 @@ Dashboard para gestão do estabelecimento e controle de serviços.
 
 
 ## Ferramentas
-
 - React
 - React Router DOM
 - Tailwind
@@ -15,14 +14,12 @@ Dashboard para gestão do estabelecimento e controle de serviços.
 - Radix
 
 ## Aprendizados importantes
-
 - Autenticação JWT
 - Caching e revalidação
 - Conexão com back-end (API)
 - Testes unitários
 
 ## Funcionalidades
-
 - Cadastro de estabelecimento;
 - Login de estabelecimento (magic link);
 - Cadastro como cliente;
