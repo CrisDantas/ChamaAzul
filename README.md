@@ -1,8 +1,10 @@
 # Sistema de gestão de serviços
 
 Dashboard para gestão do estabelecimento e controle de serviços.
-
+![Texto alternativo](./src/assets/sign-in.jpg)
 ![Texto alternativo](./src/assets/Preview.jpg)
+![Texto alternativo](./src/assets/pedidos.jpg)
+![Texto alternativo](./src/assets/detalhes-do-pedido.jpg)
 
 
 ## Ferramentas
