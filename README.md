@@ -10,12 +10,12 @@ The project simulates the operation of an online restaurant, allowing users to b
 
 ## Tools Used
 
-React
-React Router DOM
-Tailwind CSS
-shadcn/ui
-React Query
-Radix
+- React
+- React Router DOM
+- Tailwind CSS
+- shadcn/ui
+- React Query
+- Radix
 
 ## Key Learnings
 
